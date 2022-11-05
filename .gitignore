@@ -6,3 +6,7 @@ venv/
 
 #pycharm specifics
 .idea
+
+#vscode specifics
+.DS_Store
+.vscode/
