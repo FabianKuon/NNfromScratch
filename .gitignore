@@ -10,3 +10,7 @@ venv/
 #vscode specifics
 .DS_Store
 .vscode/
+
+# Graph visualization files
+*.gv
+*.svg
