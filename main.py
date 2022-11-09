@@ -1,6 +1,7 @@
+"""Main method for neural net training"""
 import numpy as np
-from neuralNet import NeuralNet
 import matplotlib.pyplot as plt
+from neuralNet import NeuralNet
 
 
 if __name__ == '__main__':
@@ -29,6 +30,3 @@ if __name__ == '__main__':
     plt.plot(sorted_data[:, 1])
     plt.plot(pred_data_sort[:, 1])
     plt.show()
-
-
-
