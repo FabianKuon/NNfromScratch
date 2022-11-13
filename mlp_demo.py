@@ -15,26 +15,14 @@ if __name__ == '__main__':
     ]
 
     labels = [1.0, -1.0, -1.0, 1.0]
-    # n() calls the implemented __call__ method of the mlp, since n is a mlp instance
-    loss_overall = []
-    step = []
-    for k in range(20):
-        # forward pass
-        ypred = [model(x) for x in features]
-        loss = sum((yout - ygt)**2 for ygt, yout in zip(labels, ypred))
 
-        # backward pass
-        for p in model.parameters():
-            p.grad = 0.0
-        loss.backward()
+    model.train(features, labels, 1000, True)
 
-        # update
-        for p in model.parameters():
-            p.data += -0.1 * p.grad
-
-        loss_overall.append(loss.data)
-        step.append(k)
-
-    plt.title('Loss function')
-    plt.plot(loss_overall)
+    figure, axis = plt.subplots(1, 2)
+    axis[0].set_title('Cost history of model training')
+    axis[0].plot(model.cost_history)
+    axis[1].set_title('Predicted vs ground truth lables')
+    axis[1].plot(labels, label='ground truth')
+    axis[1].plot(model.predictions, linestyle='dashed', label='predictions')
+    axis[1].legend(loc='upper right', ncol=1, shadow=True, fancybox=True)
     plt.show()

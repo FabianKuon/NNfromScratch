@@ -35,7 +35,8 @@ class NeuralNet:
             self.params['W' + str(layer_idx)] = \
                 np.random.randn(layer_output_dim, layer_input_dim) * 0.001
             self.params['b' + str(layer_idx)] = np.zeros((layer_output_dim, 1))
-            self.grads['dW' + str(layer_idx)] = np.zeros((layer_output_dim, layer_input_dim))
+            self.grads['dW' + str(layer_idx)
+                       ] = np.zeros((layer_output_dim, layer_input_dim))
             self.grads['db' + str(layer_idx)] = np.zeros((layer_output_dim, 1))
 
     def layerwise_forward(self, a_prev: np.ndarray, w_curr: np.ndarray, b_curr: np.ndarray, activation: str) \
@@ -81,7 +82,8 @@ class NeuralNet:
             activation_curr = layer['activation']
             w_curr = self.params['W' + str(layer_idx)]
             b_curr = self.params['b' + str(layer_idx)]
-            a_curr, z_curr = self.layerwise_forward(a_prev, w_curr, b_curr, activation_curr)
+            a_curr, z_curr = self.layerwise_forward(
+                a_prev, w_curr, b_curr, activation_curr)
             memory['A' + str(idx)] = a_prev
             memory['Z' + str(layer_idx)] = z_curr
 
@@ -142,7 +144,8 @@ class NeuralNet:
             z_curr = memory['Z' + str(layer_idx)]
             w_curr = self.params['W' + str(layer_idx)]
 
-            da_prev, dw_curr, db_curr = self.layerwise_backward(da_curr, w_curr, z_curr, a_prev, activation_curr)
+            da_prev, dw_curr, db_curr = self.layerwise_backward(
+                da_curr, w_curr, z_curr, a_prev, activation_curr)
 
             self.grads['dW' + str(layer_idx)] = dw_curr
             self.grads['db' + str(layer_idx)] = db_curr
@@ -151,8 +154,10 @@ class NeuralNet:
         """Update parameters using gradient descent.
         """
         for layer_idx in range(1, self.no_layers + 1):
-            self.params['W' + str(layer_idx)] -= self.learning_rate * self.grads['dW' + str(layer_idx)]
-            self.params['b' + str(layer_idx)] -= self.learning_rate * self.grads['db' + str(layer_idx)]
+            self.params['W' + str(layer_idx)] -= self.learning_rate * \
+                self.grads['dW' + str(layer_idx)]
+            self.params['b' + str(layer_idx)] -= self.learning_rate * \
+                self.grads['db' + str(layer_idx)]
 
     def predict(self, x: ndarray) -> ndarray:
         """Predict model output for given input sample.
@@ -210,14 +215,16 @@ class NeuralNet:
                 if cost_func == 'mse':
                     cost_curr = self.compute_mse_loss(y_batch, y_hat)
                 else:
-                    raise RuntimeError('Undefined cost function used. Please define the {}_forward '
-                                       'and {}_backward in the helper class'.format(self.cost_func, self.cost_func))
+                    raise RuntimeError(
+                        f'Undefined cost function used. Please define the {self.cost_func}_forward ' +
+                        f'and {self.cost_func}_backward in the helper class')
                 cost_batch.append(cost_curr)
                 self.full_backward(y_batch, y_hat, memory)
                 self.update_parameters()
 
             if i % 50 == 0 and print_cost:
-                print("Iteration: {} - cost: {:.5f}".format(i, cost_curr))
+                print(
+                    f"Iteration: {i} - cost: {cost_curr:.5f}")
             cost_history.append(sum(cost_batch)/len(cost_batch))
 
         return cost_history
