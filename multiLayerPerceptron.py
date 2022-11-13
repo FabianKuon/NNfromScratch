@@ -7,7 +7,7 @@ class MLP:
     Multi-Layer-Perceptron
     """
 
-    def __init__(self, dim_in: int, dim_outs: list[int]) -> None:
+    def __init__(self, dim_in: int, dim_outs: list[int]):
         """
         param: dim_in   dimension of input features
         param: dim_outs list of neurons at each layer
@@ -19,3 +19,9 @@ class MLP:
         for layer in self.layers:
             activation = layer(features)
         return activation
+
+    def parameters(self):
+        """
+        List of all parameters belonging to the MLP.
+        """
+        return [parameter for layer in self.layers for parameter in layer.parameters]

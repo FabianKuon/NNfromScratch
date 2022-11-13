@@ -35,7 +35,7 @@ class Value:
         return self * -1
 
     def __subtr__(self, other):
-        return self * (-other)
+        return self + (-other)
 
     def __mul__(self, other):
         # enables multiplication of Value instance with e.g. integers
@@ -59,6 +59,14 @@ class Value:
         out._backward = _backward
         return out
 
+    def __radd__(self, other):
+        """Function which allows for 2*a=2.__add__(a) which would otherwise not be possible"""
+        return self + other
+
+    def __rsubtr__(self, other):
+        """Function which allows for 2-a=2.__subtr__(a) which would otherwise not be possible"""
+        return -(other + (-self))
+
     def __rmul__(self, other):
         """Function which allows for 2*a=2.__mul__(a) which would otherwise not be possible"""
         return self * other
@@ -68,6 +76,12 @@ class Value:
         Function for division operation of Value instances
         """
         return self * other**-1
+
+    def __rtruediv__(self, other):
+        """
+        Function for division operation of Value instances
+        """
+        return other * self**-1
 
     def tanh(self):
         """
