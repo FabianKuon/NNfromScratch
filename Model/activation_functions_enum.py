@@ -12,10 +12,22 @@ class ValidActivationFunctions(Enum):
 
     @classmethod
     def from_describtion(cls, description: str):
+        """Retrieve activation function from description
+
+        Args:
+            description (str): function description
+
+        Raises:
+            KeyError: raise error if description not in cls.ValidActivationFunctions
+
+        Returns:
+            _type_: cls.ValidActivationFunctions
+        """
         for func in cls:
             if func.value == description:
                 return cls
-        raise KeyError(f'Activation function {description} not implemented so far!')
+        raise KeyError(
+            f'Activation function {description} not implemented so far!')
 
     @classmethod
     def check_valid_func(cls, activation_func: str) -> bool:
