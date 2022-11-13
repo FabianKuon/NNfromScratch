@@ -1,3 +1,4 @@
+"""Enum representing implemented non-linearities"""
 from enum import Enum
 
 
@@ -8,6 +9,13 @@ class ValidActivationFunctions(Enum):
     RELU = 'ReLu'
     TANH = 'tanh'
     SIGMOID = 'sigmoid'
+
+    @classmethod
+    def from_describtion(cls, description: str):
+        for func in cls:
+            if func.value == description:
+                return cls
+        raise KeyError(f'Activation function {description} not implemented so far!')
 
     @classmethod
     def check_valid_func(cls, activation_func: str) -> bool:

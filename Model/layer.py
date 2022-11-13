@@ -1,6 +1,7 @@
 """Layer implementation for neural net"""
 from Model.neuron import Neuron
 from Model.value_repr import Value
+from Model.activation_functions_enum import ValidActivationFunctions as vaf
 
 
 class Layer:
@@ -8,7 +9,7 @@ class Layer:
     A layer implementation containing multiple neurons.
     """
 
-    def __init__(self, dim_in: int, dim_out: int, activation_func: str):
+    def __init__(self, dim_in: int, dim_out: int, activation_func: vaf):
         self.neurons = [Neuron(dim_in, activation_func)
                         for _ in range(dim_out)]
 

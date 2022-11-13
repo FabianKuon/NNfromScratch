@@ -1,11 +1,12 @@
 """Training of a mlp with a simple data example"""
 from Model.multi_layer_perceptron import MLP
+from Model.activation_functions_enum import ValidActivationFunctions as vaf
 
 
 if __name__ == '__main__':
     # a multi-layer-perceptron with input dimension 3,
     # first and second layer dimension 4 and outpit dimension 1
-    model = MLP(3, [4, 4, 1])
+    model = MLP(3, [4, 4, 1], vaf.TANH)
     features = [
         [2.0, 3.0, -1.0],
         [3.0, -1.0, 0.5],

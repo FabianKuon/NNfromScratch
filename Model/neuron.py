@@ -1,7 +1,7 @@
 """Class representation for neurons"""
 from numpy import random
 from Model.value_repr import Value
-from Model.activation_functions_enum import ValidActivationFunctions
+from Model.activation_functions_enum import ValidActivationFunctions as vaf
 
 
 class Neuron:
@@ -9,12 +9,11 @@ class Neuron:
     The Neuron class used for neural nets
     """
 
-    def __init__(self, dimension: int, activation_func: str) -> None:
+    def __init__(self, dimension: int, activation_func: vaf) -> None:
         self.weights = [Value(random.uniform(-1, 1))
                         for _ in range(dimension)]
         self.baises = Value(random.uniform(-1, 1))
-        self.activation_func = activation_func if ValidActivationFunctions.check_valid_func(
-            activation_func) else 'ReLu'
+        self.activation_func = activation_func
 
     def __call__(self, data: list[float]) -> list:
         if isinstance(data, float):

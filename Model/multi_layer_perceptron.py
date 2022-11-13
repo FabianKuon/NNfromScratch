@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from Model.layer import Layer
 from Model.value_repr import Value
+from Model.activation_functions_enum import ValidActivationFunctions as vaf
 
 
 class MLP:
@@ -10,7 +11,7 @@ class MLP:
     Multi-Layer-Perceptron
     """
 
-    def __init__(self, dim_in: int, dim_outs: list[int], activation_func: str = 'ReLu'):
+    def __init__(self, dim_in: int, dim_outs: list[int], activation_func: vaf = vaf.RELU):
         """
         param: dim_in   dimension of input features
         param: dim_outs list of neurons at each layer
