@@ -1,6 +1,6 @@
 """Layer implementation for neural net"""
-from neuron import Neuron
-from value_repr import Value
+from Model.neuron import Neuron
+from Model.value_repr import Value
 
 
 class Layer:

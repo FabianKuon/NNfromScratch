@@ -1,5 +1,5 @@
 """Training of a mlp with a simple data example"""
-from multiLayerPerceptron import MLP
+from Model.multiLayerPerceptron import MLP
 
 
 if __name__ == '__main__':

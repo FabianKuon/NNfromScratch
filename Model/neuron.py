@@ -1,6 +1,6 @@
 """Class representation for neurons"""
 from numpy import random
-from value_repr import Value
+from Model.value_repr import Value
 
 
 class Neuron:

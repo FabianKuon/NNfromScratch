@@ -1,5 +1,5 @@
 """Multi-Layer-Perceptron implementation"""
-from layer import Layer
+from Model.layer import Layer
 
 
 class MLP:
