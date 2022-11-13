@@ -24,4 +24,4 @@ class MLP:
         """
         List of all parameters belonging to the MLP.
         """
-        return [parameter for layer in self.layers for parameter in layer.parameters]
+        return [parameter for layer in self.layers for parameter in layer.parameters()]

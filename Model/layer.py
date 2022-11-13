@@ -19,4 +19,4 @@ class Layer:
         """
         Extract all parameters associated with the specific layer.
         """
-        return [parameter for neuron in self.neurons for parameter in neuron.parameters]
+        return [parameter for neuron in self.neurons for parameter in neuron.parameters()]

@@ -25,8 +25,8 @@ class Value:
         out = Value(self.data + other.data, (self, other), '+')
 
         def _backward():
-            self.grad += other.data * out.grad
-            other.grad += self.data * out.grad
+            self.grad += 1 * out.grad
+            other.grad += 1 * out.grad
 
         out._backward = _backward
         return out
@@ -34,7 +34,7 @@ class Value:
     def __neg__(self):
         return self * -1
 
-    def __subtr__(self, other):
+    def __sub__(self, other):
         return self + (-other)
 
     def __mul__(self, other):
@@ -43,8 +43,8 @@ class Value:
         out = Value(self.data * other.data, (self, other), '*')
 
         def _backward():
-            self.grad += 1.0 * out.grad
-            other.grad += 1.0 * out.grad
+            self.grad += other.data * out.grad
+            other.grad += self.data * out.grad
 
         out._backward = _backward
         return out
@@ -60,12 +60,12 @@ class Value:
         return out
 
     def __radd__(self, other):
-        """Function which allows for 2*a=2.__add__(a) which would otherwise not be possible"""
+        """Function which allows for 2+a=2.__add__(a) which would otherwise not be possible"""
         return self + other
 
-    def __rsubtr__(self, other):
+    def __rsub__(self, other):
         """Function which allows for 2-a=2.__subtr__(a) which would otherwise not be possible"""
-        return -(other + (-self))
+        return other + (-self)
 
     def __rmul__(self, other):
         """Function which allows for 2*a=2.__mul__(a) which would otherwise not be possible"""
