@@ -107,8 +107,6 @@ class Value:
         out._backward = _backward
         return out
 
-
-
     def relu(self):
         """
         ReLu activation function
@@ -120,6 +118,17 @@ class Value:
         out._backward = _backward
 
         return out
+
+    def sigmoid(self):
+        """
+        Sigmoid activation function
+        """
+        out = Value(0 if self.data < 0 else self.data, (self, ), 'sigmoid')
+
+        def _backward():
+            self.grad += out.data * (1 - out.data) * out.grad
+        out._backward = _backward
+        return
 
     def backward(self):
         """
