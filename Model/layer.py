@@ -8,10 +8,11 @@ class Layer:
     A layer implementation containing multiple neurons.
     """
 
-    def __init__(self, dim_in: int, dim_out: int):
-        self.neurons = [Neuron(dim_in) for _ in range(dim_out)]
+    def __init__(self, dim_in: int, dim_out: int, activation_func: str):
+        self.neurons = [Neuron(dim_in, activation_func)
+                        for _ in range(dim_out)]
 
-    def __call__(self, features: list) -> list:
+    def __call__(self, features: list[Value]) -> list:
         outs = [n(features) for n in self.neurons]
         return outs[0] if len(outs) == 1 else outs
 

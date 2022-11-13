@@ -8,7 +8,7 @@ class Value:
     Class representation for mathematical operations in a neural net
     """
 
-    def __init__(self, data, _children=(), _op='', label=''):
+    def __init__(self, data: float, _children: set = (), _op: str = '', label: str = ''):
         self.data = data
         self.grad = 0.0
         self._backward = lambda: None
@@ -85,7 +85,7 @@ class Value:
 
     def tanh(self):
         """
-        Tanh evaluation of Values instance
+        Tanh activation function.
         """
         tanh = (math.exp(2*self.data) - 1)/(math.exp(2*self.data) + 1)
         out = Value(tanh, (self, ), 'tanh')
@@ -100,11 +100,25 @@ class Value:
         """
         exp function for Values instance
         """
-        out = Value(math.exp(self.data, (self,), 'exp'))
+        out = Value(math.exp(self.data), (self, ), 'exp')
 
         def _backward():
             self.grad += out.data * out.grad
         out._backward = _backward
+        return out
+
+
+
+    def relu(self):
+        """
+        ReLu activation function
+        """
+        out = Value(0 if self.data < 0 else self.data, (self,), 'ReLU')
+
+        def _backward():
+            self.grad += (out.data > 0) * out.grad
+        out._backward = _backward
+
         return out
 
     def backward(self):

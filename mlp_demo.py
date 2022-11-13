@@ -1,6 +1,5 @@
 """Training of a mlp with a simple data example"""
-import matplotlib.pyplot as plt
-from Model.multiLayerPerceptron import MLP
+from Model.multi_layer_perceptron import MLP
 
 
 if __name__ == '__main__':
@@ -17,12 +16,4 @@ if __name__ == '__main__':
     labels = [1.0, -1.0, -1.0, 1.0]
 
     model.train(features, labels, 1000, True)
-
-    figure, axis = plt.subplots(1, 2)
-    axis[0].set_title('Cost history of model training')
-    axis[0].plot(model.cost_history)
-    axis[1].set_title('Predicted vs ground truth lables')
-    axis[1].plot(labels, label='ground truth')
-    axis[1].plot(model.predictions, linestyle='dashed', label='predictions')
-    axis[1].legend(loc='upper right', ncol=1, shadow=True, fancybox=True)
-    plt.show()
+    model.visualize(labels)

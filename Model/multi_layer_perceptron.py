@@ -1,7 +1,8 @@
 """Multi-Layer-Perceptron implementation"""
+import numpy as np
+import matplotlib.pyplot as plt
 from Model.layer import Layer
 from Model.value_repr import Value
-import numpy as np
 
 
 class MLP:
@@ -9,13 +10,14 @@ class MLP:
     Multi-Layer-Perceptron
     """
 
-    def __init__(self, dim_in: int, dim_outs: list[int]):
+    def __init__(self, dim_in: int, dim_outs: list[int], activation_func: str = 'ReLu'):
         """
         param: dim_in   dimension of input features
         param: dim_outs list of neurons at each layer
         """
         size = [dim_in] + dim_outs
-        self.layers = [Layer(size[i], size[i+1]) for i in range(len(dim_outs))]
+        self.layers = [Layer(size[i], size[i+1], activation_func)
+                       for i in range(len(dim_outs))]
         self.cost_history = []
         self.predictions = np.zeros(dim_in)
 
@@ -62,3 +64,19 @@ class MLP:
 
             self.cost_history.append(loss.data)
             self.predictions = [prediction.data for prediction in ypred]
+
+    def visualize(self, labels: list[float]):
+        """
+        Plot the cost history graph as well as true vs. predicted labels.
+
+        Args:
+            - labels (list[float]): ground truth labels of training data
+        """
+        _, axis = plt.subplots(1, 2)
+        axis[0].set_title('Cost history of model training')
+        axis[0].plot(self.cost_history)
+        axis[1].set_title('Predicted vs ground truth lables')
+        axis[1].plot(labels, label='ground truth')
+        axis[1].plot(self.predictions, linestyle='dashed', label='predictions')
+        axis[1].legend(loc='upper right', ncol=1, shadow=True, fancybox=True)
+        plt.show()
