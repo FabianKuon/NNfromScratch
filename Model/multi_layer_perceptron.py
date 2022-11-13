@@ -21,6 +21,7 @@ class MLP:
                        for i in range(len(dim_outs))]
         self.cost_history = []
         self.predictions = np.zeros(dim_in)
+        self.final_loss = None
 
     def __call__(self, features: list) -> list:
         for layer in self.layers:
@@ -64,7 +65,8 @@ class MLP:
                 print(f"Iteration: {k} - cost: {loss.data:.5f}")
 
             self.cost_history.append(loss.data)
-            self.predictions = [prediction.data for prediction in ypred]
+        self.predictions = [pred.data for pred in ypred]
+        self.final_loss = loss
 
     def visualize(self, labels: list[float]):
         """
