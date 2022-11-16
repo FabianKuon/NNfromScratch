@@ -1,9 +1,10 @@
 """Multi-Layer-Perceptron implementation"""
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
+from Model.activation_functions_enum import ValidActivationFunctions as vaf
 from Model.layer import Layer
 from Model.value_repr import Value
-from Model.activation_functions_enum import ValidActivationFunctions as vaf
 
 
 class MLP:
@@ -34,7 +35,7 @@ class MLP:
         """
         return [parameter for layer in self.layers for parameter in layer.parameters()]
 
-    def train(self, data_train: list[Value], ground_truth: list[float], no_epoches: int, verbose: bool = True):
+    def train(self, data_train: list[Value], ground_truth: list[float], no_epoches: int, learning_rate: float = 0.01, verbose: bool = True):
         """
         Implementation of the training procedure of the MLP.
         Iterate over forward and backward pass as long as a certain 
@@ -44,6 +45,7 @@ class MLP:
             - data_train (list[Value]): training data set
             - ground_truth (list[float]): labels for training data
             - no_epoches (int): number of training epoches
+            - learning_rate (float): learning rate
             - verbose (bool): should the cost value be printed?
         """
         for k in range(no_epoches):
@@ -52,21 +54,21 @@ class MLP:
             loss = sum((yout - ygt)**2 for ygt,
                        yout in zip(ground_truth, ypred))
 
-            # backward pass
+            # backward pass - reset gradients before backward pass
             for param in self.parameters():
                 param.grad = 0.0
             loss.backward()
 
-            # update
+            # update parameters
             for param in self.parameters():
-                param.data += -0.1 * param.grad
+                param.data += -learning_rate * param.grad
 
             if verbose and k % 10 == 0:
                 print(f"Iteration: {k} - cost: {loss.data:.5f}")
 
             self.cost_history.append(loss.data)
         self.predictions = [pred.data for pred in ypred]
-        self.final_loss = loss
+        self.final_loss = loss.data
 
     def visualize(self, labels: list[float]):
         """

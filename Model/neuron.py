@@ -17,12 +17,13 @@ class Neuron:
 
     def __call__(self, data: list[float]) -> list:
         if isinstance(data, float):
-            return (self.weights[0] * data).tanh()
-        act = sum((wi*xi for wi, xi in zip(self.weights, data)), self.baises)
+            act = (self.weights[0] * data).tanh()
+        else:
+            act = sum((wi*xi for wi, xi in zip(self.weights, data)), self.baises)
         match self.activation_func:
-            case "tanh":
+            case vaf.TANH:
                 out = act.tanh()
-            case "ReLu":
+            case vaf.RELU:
                 out = act.relu()
             case _:
                 out = act.relu()
