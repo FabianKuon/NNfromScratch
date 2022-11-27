@@ -70,6 +70,59 @@ class MLP:
         self.predictions = [pred.data for pred in ypred]
         self.final_loss = loss.data
 
+    def train_sgd(self, data_train: list[Value], ground_truth: list[Value], no_epoches: int = 10000, batch_size: int = 20, learning_rate: float = 0.01, verbose: bool = False, seed: int = 10):
+        """Train the defined network architecture in a stochastic gradient descent optimization fashion.
+
+        Args:
+
+            data_train (list[Value]): training data set
+            ground_truth (list[float]): labels for training data
+            no_epoches (int): number of training epoches
+            batch_size (int, optional): how many data samples should be used in any learning step. Defaults to 20.
+            learning_rate (float): learning rate
+            verbose (bool): should the cost value be printed?
+            seed (int, optional): aimed for reproducability of results. Defaults to 10.
+
+        Raises:
+            RuntimeError: _description_
+
+        Returns:
+            _type_: _description_
+        """
+        cost_history = []
+        no_samples = len(data_train)
+        rng = np.random.default_rng(seed=seed)
+        data = np.c_[data_train, ground_truth]
+
+        for k in range(no_epoches):
+            rng.shuffle(data)
+            cost_batch = []
+            for start in range(0, no_samples, batch_size):
+                stop = start + batch_size
+                x_batch = data[start:stop, :-1].T
+                y_batch = data[start:stop, -1:].T
+
+                # forward pass
+                ypred = [self(x) for x in x_batch]
+                loss = sum((yout - ygt)**2 for ygt,
+                           yout in zip(y_batch, ypred))
+
+                # backward pass - reset gradients before backward pass
+                for param in self.parameters():
+                    param.grad = 0.0
+                loss.backward()
+
+                # update parameters
+                for param in self.parameters():
+                    param.data += -learning_rate * param.grad
+
+            if verbose and k % 10 == 0:
+                print(f"Iteration: {k} - cost: {loss.data:.5f}")
+
+            cost_history.append(sum(cost_batch)/len(cost_batch))
+
+        return cost_history
+
     def visualize(self, labels: list[float]):
         """
         Plot the cost history graph as well as true vs. predicted labels.

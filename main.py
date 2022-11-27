@@ -16,7 +16,7 @@ if __name__ == '__main__':
             Y.append(float(y))
 
     model = MLP(1, [4, 1], vaf.RELU)
-    model.train(X, Y, no_epoches=100, learning_rate=0.01)
+    model.train_sgd(X, Y, no_epoches=100, learning_rate=0.01)
     # draw_dot(model.final_loss).render(directory='graph-output')
 
     pred_data = np.column_stack((X, model.predictions))
